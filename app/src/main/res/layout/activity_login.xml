@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".activities.LoginActivity">
 
     <ImageView
         android:id="@+id/imageView"
@@ -42,7 +42,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.421"
-        tools:layout_editor_absoluteX="0dp" />
+        tools:layout_editor_absoluteX="0dp"
+        style="@style/DefaultInputStyle"
+        android:background="@drawable/default_input_bg"
+        />
 
     <EditText
         android:id="@+id/editTextPassword"
@@ -55,7 +58,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editTextUsername"
         app:layout_constraintVertical_bias="0.116"
-        tools:layout_editor_absoluteX="0dp" />
+        tools:layout_editor_absoluteX="0dp"
+        style="@style/DefaultInputStyle"
+        android:background="@drawable/default_input_bg"
+        />
 
     <Button
         android:id="@+id/loginButton"
@@ -64,6 +70,10 @@
         android:text="@string/login"
         android:paddingVertical="15dp"
         android:paddingHorizontal="25dp"
+        android:elevation="10dp"
+        android:shadowRadius="10"
+        android:shadowDx="10"
+        android:shadowDy="10"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -73,13 +83,14 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/register"
+        android:text="@string/register_underline"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginButton"
         app:layout_constraintVertical_bias="0.312"
         style="@style/RegistrationText"
+        android:onClick="goToRegister"
         />
 
 

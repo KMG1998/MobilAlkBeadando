@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.RegisterActivity">
+
+    <EditText
+        android:id="@+id/registerEmail"
+        style="@style/DefaultInputStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/default_input_bg"
+        android:hint="@string/email"
+        android:importantForAutofill="no"
+        android:inputType="textEmailAddress"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.106"
+        tools:layout_editor_absoluteX="20dp" />
+
+    <EditText
+        android:id="@+id/registerName"
+        style="@style/DefaultInputStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/default_input_bg"
+        android:hint="@string/name_hint"
+        android:importantForAutofill="no"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/registerEmail"
+        app:layout_constraintVertical_bias="0.062"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <EditText
+        android:id="@+id/registerBirth"
+        style="@style/DefaultInputStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/default_input_bg"
+        android:hint="@string/birth_date"
+        android:importantForAutofill="no"
+        android:inputType="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/registerName"
+        app:layout_constraintVertical_bias="0.068"
+        tools:layout_editor_absoluteX="20dp" />
+
+    <EditText
+        android:id="@+id/registerPass"
+        style="@style/DefaultInputStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/default_input_bg"
+        android:hint="@string/password"
+        android:importantForAutofill="no"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/registerBirth"
+        app:layout_constraintVertical_bias="0.086"
+        tools:layout_editor_absoluteX="24dp" />
+
+    <EditText
+        android:id="@+id/registerPassRep"
+        style="@style/DefaultInputStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/default_input_bg"
+        android:hint="@string/password_rep"
+        android:importantForAutofill="no"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/registerPass"
+        app:layout_constraintVertical_bias="0.086"
+        tools:layout_editor_absoluteX="24dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="10dp"
+        android:onClick="onRegisterClick"
+        android:paddingHorizontal="25dp"
+        android:paddingVertical="15dp"
+        android:shadowDx="10"
+        android:shadowDy="10"
+        android:shadowRadius="10"
+        android:text="@string/register_title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/registerPassRep"
+        app:layout_constraintVertical_bias="0.274" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

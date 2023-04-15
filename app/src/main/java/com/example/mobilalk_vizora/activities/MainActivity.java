@@ -1,7 +1,10 @@
-package com.example.mobilalk_vizora;
+package com.example.mobilalk_vizora.activities;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 
+import com.example.mobilalk_vizora.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,4 +37,9 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.navView, navController);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        return true;
+    }
 }
