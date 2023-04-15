@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">MobilAlk_vizora</string>
+    <string name="email">Email</string>
+    <string name="password">Jelszó</string>
+    <string name="login">Belépés</string>
+    <string name="login_title">Vízóra bejelentés</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="nav_title_home">Főoldal</string>
+    <string name="nav_title_new">Új</string>
+    <string name="nav_title_history">Korábbi</string>
+    <string name="recent_uploads">Legutóbbi bejelentések</string>
+    <string name="register"><u>Regisztráció</u></string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="previous_uploads_title">Korábbi bejelentések</string>
+    <string name="profile">Profil</string>
+    <string name="logout">Kilépés</string>
+</resources>
