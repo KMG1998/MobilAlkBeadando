@@ -1,6 +1,7 @@
 package com.example.mobilalk_vizora.activities;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -17,12 +18,16 @@ import com.example.mobilalk_vizora.fireBaseProvider.FireBaseProvider;
 import com.example.mobilalk_vizora.validators.InputValidator;
 import com.example.mobilalk_vizora.validators.ValidationResult;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.DateValidatorPointBackward;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -39,6 +44,8 @@ public class RegisterActivity extends AppCompatActivity {
     InputValidator inputValidator;
     FireBaseProvider fBaseProvider;
 
+    private static final String LOG_TAG = RegisterActivity.class.getName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,10 +60,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         CalendarConstraints.Builder constraintsBuilder = new CalendarConstraints.Builder();
         constraintsBuilder.setValidator(DateValidatorPointBackward.now());
-        datePicker = MaterialDatePicker.Builder.datePicker()
-                .setInputMode(MaterialDatePicker.INPUT_MODE_CALENDAR)
-                .setCalendarConstraints(constraintsBuilder.build())
-                .build();
+        datePicker = MaterialDatePicker.Builder.datePicker().setInputMode(MaterialDatePicker.INPUT_MODE_CALENDAR).setCalendarConstraints(constraintsBuilder.build()).build();
 
         birthEditText.setInputType(InputType.TYPE_NULL);
         birthEditText.setOnFocusChangeListener(birthFocusListener);
@@ -75,22 +79,22 @@ public class RegisterActivity extends AppCompatActivity {
             String password = passwordEditText.getText().toString();
             String userName = nameEditText.getText().toString();
             String birthDate = birthEditText.getText().toString();
-            fBaseProvider.registerUser(email,password).addOnCompleteListener(this, task -> {
-                if(task.isSuccessful()) {
-                    task.getResult().getUser().getUid();
-                } else {
-                    Toast.makeText(RegisterActivity.this, R.string.error_register_failed, Toast.LENGTH_LONG).show();
-                }
+            fBaseProvider.registerUser(email, password).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    fBaseProvider.createUserData(userName, birthDate, task.getResult().getUser().getUid()).addOnCompleteListener(documentReference -> {
+                        if (documentReference.isSuccessful()) {
+                            Toast.makeText(RegisterActivity.this, R.string.register_success_toast, Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(this, LoginActivity.class);
+                            startActivity(intent);
+                        } else Toast.makeText(RegisterActivity.this, R.string.error_register_failed, Toast.LENGTH_LONG).show();
+                    });
+                }else Toast.makeText(RegisterActivity.this, R.string.error_register_failed, Toast.LENGTH_LONG).show();
             });
         }
     }
 
     private boolean validateFields() {
-        return emailEditText.getError() == null &&
-                nameEditText.getError() == null &&
-                birthEditText.getError() == null &&
-                passwordEditText.getError() == null &&
-                passwordRepEditText.getError() == null;
+        return emailEditText.getError() == null && nameEditText.getError() == null && birthEditText.getError() == null && passwordEditText.getError() == null && passwordRepEditText.getError() == null;
 
     }
 

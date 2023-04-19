@@ -10,7 +10,7 @@ public class UserData {
 
     public UserData(){}
 
-    public UserData(String userName, String birthDate, String userId, Timestamp lastLogin) {
+    public UserData(String birthDate, Timestamp lastLogin,String userId,String userName) {
         this.userName = userName;
         this.birthDate = birthDate;
         this.userId = userId;
@@ -32,4 +32,17 @@ public class UserData {
     public Timestamp getLastLogin() {
         return lastLogin;
     }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public void setLastLogin(Timestamp lastLogin) {
+        this.lastLogin = lastLogin;
+    }
+
 }

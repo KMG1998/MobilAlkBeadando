@@ -27,4 +27,5 @@
     <string name="error_username_length">A névnek legalább 4 karakter hosszúnak lennie</string>
     <string name="error_passw_mismatch">A két jelszó nem egyezik</string>
     <string name="error_register_failed">Regisztráció sikertelen</string>
+    <string name="register_success_toast">Regisztráció sikeres</string>
 </resources>
