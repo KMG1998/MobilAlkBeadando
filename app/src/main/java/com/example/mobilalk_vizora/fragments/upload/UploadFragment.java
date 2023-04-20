@@ -13,10 +13,15 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.mobilalk_vizora.R;
 import com.example.mobilalk_vizora.databinding.FragmentUploadBinding;
+import com.example.mobilalk_vizora.model.Statement;
+
+import java.util.List;
 
 public class UploadFragment extends Fragment {
 
     private FragmentUploadBinding binding;
+
+    private List<Statement> userStatements;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -24,6 +29,7 @@ public class UploadFragment extends Fragment {
                 new ViewModelProvider(this).get(UploadViewModel.class);
 
         binding = FragmentUploadBinding.inflate(inflater, container, false);
+        setHasOptionsMenu(true);
         View root = binding.getRoot();
         return root;
     }

@@ -24,6 +24,7 @@ public class HistoryFragment extends Fragment {
                 new ViewModelProvider(this).get(HistoryViewModel.class);
 
         binding = FragmentHistoryBinding.inflate(inflater, container, false);
+        setHasOptionsMenu(true);
         View root = binding.getRoot();
         return root;
     }

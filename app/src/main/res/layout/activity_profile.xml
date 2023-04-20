@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.ProfileActivity">
+
+    <TextView
+        style="@style/DefaultInputStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/userIdLabel"
+        android:layout_marginTop="40dp"
+        />
+    <TextView
+        android:id="@+id/profileUIDLabel"
+        style="@style/DefaultInputStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="asdasdasd" />
+    <TextView
+        style="@style/DefaultInputStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/birth_date"
+        android:layout_marginTop="30dp"
+        />
+    <TextView
+        android:id="@+id/profileBirthDateLabel"
+        style="@style/DefaultInputStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="asdasd" />
+    <TextView
+        style="@style/DefaultInputStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/lastLogin"
+        android:layout_marginTop="30dp"
+        />
+    <TextView
+        android:id="@+id/profileLastLoginLabel"
+        style="@style/DefaultInputStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="asdasd" />
+
+</LinearLayout>

@@ -27,4 +27,6 @@
     <string name="error_passw_mismatch">A két jelszó nem egyezik</string>
     <string name="error_register_failed">Regisztráció sikertelen</string>
     <string name="register_success_toast">Regisztráció sikeres</string>
+    <string name="userIdLabel">Azonosító</string>
+    <string name="lastLogin">Utolsó belépés</string>
 </resources>
