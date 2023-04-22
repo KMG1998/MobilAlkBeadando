@@ -64,7 +64,7 @@
     <Button
         android:id="@+id/loginButton"
         style="@style/default_button_style"
-        android:onClick="loginWithEmail"
+        android:onClick="onLoginClick"
         android:text="@string/login"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
