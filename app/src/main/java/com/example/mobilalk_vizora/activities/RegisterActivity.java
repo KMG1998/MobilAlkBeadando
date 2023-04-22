@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -40,6 +41,7 @@ public class RegisterActivity extends AppCompatActivity {
     EditText birthEditText;
     EditText passwordEditText;
     EditText passwordRepEditText;
+    Button registerButton;
     MaterialDatePicker<Long> datePicker;
     InputValidator inputValidator;
     FireBaseProvider fBaseProvider;
@@ -57,6 +59,7 @@ public class RegisterActivity extends AppCompatActivity {
         birthEditText = findViewById(R.id.registerBirth);
         passwordEditText = findViewById(R.id.registerPass);
         passwordRepEditText = findViewById(R.id.registerPassRep);
+        registerButton = findViewById(R.id.registerButton);
 
         CalendarConstraints.Builder constraintsBuilder = new CalendarConstraints.Builder();
         constraintsBuilder.setValidator(DateValidatorPointBackward.now());
@@ -75,6 +78,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void onRegisterClick(View view) {
         if (validateFields()) {
+            registerButton.setEnabled(false);
             String email = emailEditText.getText().toString();
             String password = passwordEditText.getText().toString();
             String userName = nameEditText.getText().toString();
@@ -86,9 +90,14 @@ public class RegisterActivity extends AppCompatActivity {
                             Toast.makeText(RegisterActivity.this, R.string.register_success_toast, Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(this, LoginActivity.class);
                             startActivity(intent);
-                        } else Toast.makeText(RegisterActivity.this, R.string.error_register_failed, Toast.LENGTH_LONG).show();
+                        } else
+                            Toast.makeText(RegisterActivity.this, R.string.error_register_failed, Toast.LENGTH_LONG).show();
                     });
-                }else Toast.makeText(RegisterActivity.this, R.string.error_register_failed, Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(RegisterActivity.this, R.string.error_register_failed, Toast.LENGTH_LONG).show();
+                    registerButton.setEnabled(true);
+                }
+                ;
             });
         }
     }

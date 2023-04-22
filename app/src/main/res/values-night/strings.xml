@@ -15,4 +15,13 @@
     <string name="error_register_failed">Regisztráció sikertelen</string>
     <string name="register_success_toast">Regisztráció sikeres</string>
     <string name="userIdLabel">Azonosító</string>
+    <string name="change_password"><![CDATA[<u>Jelszó váltása</u>]]></string>
+    <string name="save_name_change">Névváltozás mentése</string>
+    <string name="drop_logo">Water drop logo</string>
+    <string name="forgotten_pass">Elfelejtett jelszó</string>
+    <string name="send">Küldés</string>
+    <string name="cancel">mégse</string>
+    <string name="email_send_success">Sikeres email küldés</string>
+    <string name="email_send_failed">Sikertelen email küldés</string>
+    <string name="password_reset">Jelszó visszaállítás</string>
 </resources>

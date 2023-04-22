@@ -8,46 +8,70 @@
     tools:context=".activities.ProfileActivity">
 
     <TextView
-        style="@style/DefaultInputStyle"
+        style="@style/ProfileInfoFieldStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/userIdLabel"
         android:layout_marginTop="40dp"
-        />
+        android:text="@string/userIdLabel" />
+
     <TextView
         android:id="@+id/profileUIDLabel"
-        style="@style/DefaultInputStyle"
+        style="@style/ProfileInfoFieldStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="asdasdasd" />
+
     <TextView
-        style="@style/DefaultInputStyle"
+        style="@style/ProfileInfoFieldStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/birth_date"
         android:layout_marginTop="30dp"
-        />
+        android:text="@string/birth_date" />
+
     <TextView
         android:id="@+id/profileBirthDateLabel"
-        style="@style/DefaultInputStyle"
+        style="@style/ProfileInfoFieldStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="asdasd" />
+
     <TextView
-        style="@style/DefaultInputStyle"
+        style="@style/ProfileInfoFieldStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/lastLogin"
         android:layout_marginTop="30dp"
-        />
+        android:text="@string/lastLogin" />
+
     <TextView
         android:id="@+id/profileLastLoginLabel"
-        style="@style/DefaultInputStyle"
+        style="@style/ProfileInfoFieldStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="asdasd" />
+
+    <TextView
+        style="@style/ProfileInfoFieldStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Név" />
+
+    <EditText
+        style="@style/DefaultInputStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/default_input_bg"
+        android:minHeight="48dp" />
+
+    <Button
+        style="@style/default_button_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:text="@string/save_name_change" />
 
 </LinearLayout>

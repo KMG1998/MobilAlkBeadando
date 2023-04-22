@@ -18,7 +18,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.236"
-        app:tint="@color/water_blue" />
+        app:tint="@color/water_blue"
+        android:contentDescription="@string/drop_logo" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -28,68 +29,75 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
         android:text="@string/login_title"
-
         style="@style/ActivityTitle"
         />
 
     <EditText
         android:id="@+id/loginEmail"
+        style="@style/DefaultInputStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
+        android:layout_marginHorizontal="@dimen/default_horizontal_margin"
+        android:autofillHints="emailAddress"
+        android:background="@drawable/default_input_bg"
         android:hint="@string/email"
         android:inputType="textEmailAddress"
-        android:layout_marginHorizontal="@dimen/default_horizontal_margin"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.421"
-        tools:layout_editor_absoluteX="0dp"
-        style="@style/DefaultInputStyle"
-        android:background="@drawable/default_input_bg"
-        />
+        app:layout_constraintVertical_bias="0.421" />
 
     <EditText
         android:id="@+id/loginPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
+        style="@style/DefaultInputStyle"
+        android:layout_marginHorizontal="@dimen/default_horizontal_margin"
+        android:autofillHints="password"
+        android:background="@drawable/default_input_bg"
         android:hint="@string/password"
         android:inputType="textPassword"
-        android:layout_marginHorizontal="@dimen/default_horizontal_margin"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/loginEmail"
-        app:layout_constraintVertical_bias="0.116"
-        tools:layout_editor_absoluteX="0dp"
-        style="@style/DefaultInputStyle"
-        android:background="@drawable/default_input_bg"
-        />
+        app:layout_constraintVertical_bias="0.116" />
 
     <Button
         android:id="@+id/loginButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/login"
-        android:paddingVertical="15dp"
-        android:paddingHorizontal="25dp"
+        style="@style/default_button_style"
         android:onClick="loginWithEmail"
+        android:text="@string/login"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginPassword"
-        app:layout_constraintVertical_bias="0.201" />
+        app:layout_constraintVertical_bias="0.186" />
 
     <TextView
+        style="@style/ProfileInfoFieldStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="showForgottenPassDialog"
+        android:text="@string/forgotten_pass"
+        app:layout_constraintBottom_toTopOf="@+id/loginRegisterLink"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginButton"
+        app:layout_constraintVertical_bias="0.484" />
+
+    <TextView
+        android:id="@+id/loginRegisterLink"
+        style="@style/RegistrationText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="goToRegister"
         android:text="@string/register_underline"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginButton"
-        app:layout_constraintVertical_bias="0.312"
-        style="@style/RegistrationText"
-        android:onClick="goToRegister"
-        />
+        app:layout_constraintVertical_bias="0.727" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

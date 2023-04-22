@@ -37,14 +37,6 @@ public class statementListItemAdapter extends RecyclerView.Adapter<statementList
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-
-        // Member Variables for the TextViews
-        private TextView mTitleText;
-        private TextView mInfoText;
-        private TextView mPriceText;
-        private ImageView mItemImage;
-        private RatingBar mRatingBar;
-
         ViewHolder(View itemView) {
             super(itemView);
         }

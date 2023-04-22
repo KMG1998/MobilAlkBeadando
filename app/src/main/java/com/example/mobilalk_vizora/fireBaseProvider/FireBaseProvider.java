@@ -34,7 +34,7 @@ public final class FireBaseProvider {
         return mFirebaseAuth.signInWithEmailAndPassword(email, password).addOnFailureListener(e -> Log.e("error", e.getMessage())).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
-                userDataCollection.orderBy("userId").whereEqualTo("userId", mFirebaseAuth.getCurrentUser().getUid()).get().addOnSuccessListener(queryDocumentSnapshots -> {
+                userDataCollection.whereEqualTo("userId", mFirebaseAuth.getCurrentUser().getUid()).get().addOnSuccessListener(queryDocumentSnapshots -> {
                     for (QueryDocumentSnapshot docSnap : queryDocumentSnapshots) {
                         UserData item = docSnap.toObject(UserData.class);
                         item.setLastLogin(Timestamp.now());
@@ -63,5 +63,9 @@ public final class FireBaseProvider {
     }
     public void logOut(){
         mFirebaseAuth.signOut();
+    }
+
+    public Task<Void> sendPasswReset(String email){
+       return mFirebaseAuth.sendPasswordResetEmail(email);
     }
 }
