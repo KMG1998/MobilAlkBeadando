@@ -40,7 +40,8 @@
     <string name="password_reset">Jelszó visszaállítás</string>
     <string name="unknown_error">Ismeretlen hiba</string>
     <string name="missing_fingerprint_error">Hiányzó ujjlenyomat</string>
-    <string name="auth_error">"Azonosítási hiba: "</string>
+    <string name="auth_error">"Azonosítási hiba"</string>
     <string name="two_step_verify">Kétlépcsős azonosítás</string>
     <string name="error_invalid_input">Hibás beviteli mező(k)</string>
+    <string name="auth_failed">Sikertelen azonosítás</string>
 </resources>

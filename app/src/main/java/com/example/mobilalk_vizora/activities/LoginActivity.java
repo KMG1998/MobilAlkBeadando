@@ -4,7 +4,9 @@ import static androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRON
 import static androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_WEAK;
 import static androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.InputType;
@@ -13,11 +15,14 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.biometric.BiometricManager;
 import androidx.biometric.BiometricPrompt;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.mobilalk_vizora.R;
@@ -28,14 +33,15 @@ import com.example.mobilalk_vizora.validators.ValidationResult;
 import java.util.concurrent.Executor;
 
 public class LoginActivity extends AppCompatActivity {
-
     InputValidator inputValidator;
     FireBaseProvider fBaseProvider;
     EditText emailInput;
     EditText passwordInput;
-    final BiometricManager bioManager = BiometricManager.from(this);
-    Executor bioExecutor = ContextCompat.getMainExecutor(this);
+    BiometricManager bioManager;
+    Executor bioExecutor;
     BiometricPrompt biometricPrompt;
+
+    final int REQUEST_CODE_ASK_PERMISSIONS = 123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,29 +51,19 @@ public class LoginActivity extends AppCompatActivity {
         fBaseProvider = new FireBaseProvider();
         emailInput = findViewById(R.id.loginEmail);
         passwordInput = findViewById(R.id.loginPassword);
-        biometricPrompt = new BiometricPrompt(LoginActivity.this, bioExecutor, new BiometricPrompt.AuthenticationCallback() {
-            @Override
-            public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
-                super.onAuthenticationError(errorCode, errString);
-                Toast.makeText(getApplicationContext(),
-                                getString(R.string.auth_error) + errString, Toast.LENGTH_SHORT)
-                        .show();
-            }
-
-            @Override
-            public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
-                super.onAuthenticationSucceeded(result);
-                loginWithEmail();
-            }
-
-            @Override
-            public void onAuthenticationFailed() {
-                super.onAuthenticationFailed();
-            }
-        });
-
         emailInput.setOnFocusChangeListener(emailFocusListener);
         passwordInput.setOnFocusChangeListener(passwordFocusListener);
+        bioManager = BiometricManager.from(this);
+        bioExecutor = ContextCompat.getMainExecutor(this);
+    }
+
+    @Override
+    public void onStart() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.USE_BIOMETRIC) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.USE_BIOMETRIC}, REQUEST_CODE_ASK_PERMISSIONS);
+            return;
+        }
+        super.onStart();
     }
 
     public void goToRegister(View view) {
@@ -83,15 +79,36 @@ public class LoginActivity extends AppCompatActivity {
                     .setNegativeButtonText(getString(R.string.cancel))
                     .setAllowedAuthenticators(BIOMETRIC_STRONG | DEVICE_CREDENTIAL);
             if (bioSupport == 1) {
+                biometricPrompt = new BiometricPrompt(LoginActivity.this, bioExecutor, new BiometricPrompt.AuthenticationCallback() {
+                    @Override
+                    public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
+                        Toast.makeText(getApplicationContext(), getString(R.string.auth_error), Toast.LENGTH_LONG).show();
+                        super.onAuthenticationError(errorCode, errString);
+                    }
+
+                    @Override
+                    public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
+                        super.onAuthenticationSucceeded(result);
+                        loginWithEmail();
+                    }
+
+                    @Override
+                    public void onAuthenticationFailed() {
+                        Toast.makeText(getApplicationContext(), R.string.auth_failed, Toast.LENGTH_LONG).show();
+                        super.onAuthenticationFailed();
+                    }
+                });
                 biometricPrompt.authenticate(promptInfo.build());
             } else if (bioSupport == 2) {
                 final Intent enrollIntent = new Intent(Settings.ACTION_BIOMETRIC_ENROLL);
                 enrollIntent.putExtra(Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED,
                         BIOMETRIC_STRONG | DEVICE_CREDENTIAL);
-                startActivityForResult(enrollIntent, REQUEST_CODE);
+                intentActivityResultLauncher.launch(enrollIntent);
+            }else {
+                loginWithEmail();
             }
-        }else{
-            Toast.makeText(this,getString(R.string.error_invalid_input),Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, getString(R.string.error_invalid_input), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -99,9 +116,9 @@ public class LoginActivity extends AppCompatActivity {
         String email = emailInput.getText().toString();
         String passw = passwordInput.getText().toString();
         fBaseProvider.loginWithEmail(email, passw).addOnSuccessListener(authResult -> {
-            Intent maintIntent = new Intent(this, MainActivity.class);
-            maintIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(maintIntent);
+            Intent mainIntent = new Intent(this, MainActivity.class);
+            mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(mainIntent);
         });
     }
 
@@ -164,15 +181,33 @@ public class LoginActivity extends AppCompatActivity {
         switch (bioManager.canAuthenticate(BIOMETRIC_WEAK | BIOMETRIC_STRONG)) {
             case BiometricManager.BIOMETRIC_SUCCESS:
                 return 1;
+            case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
+                return 2;
             case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
             case BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE:
-                return 0;
-            case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
-                Toast.makeText(this, R.string.missing_fingerprint_error, Toast.LENGTH_LONG).show();
-                return 2;
             default:
                 Toast.makeText(this, R.string.unknown_error, Toast.LENGTH_LONG).show();
                 return 0;
+        }
+    }
+
+    ActivityResultLauncher<Intent> intentActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+            });
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_ASK_PERMISSIONS:
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    onLoginClick(new View(this));
+                } else {
+                    Toast.makeText(this, "Permission denied!", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 }

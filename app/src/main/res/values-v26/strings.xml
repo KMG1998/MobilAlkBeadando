@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">MobilAlk_vizora</string>
     <string name="email">Email</string>
@@ -29,7 +28,8 @@
     <string name="error_register_failed">Regisztráció sikertelen</string>
     <string name="register_success_toast">Regisztráció sikeres</string>
     <string name="userIdLabel">Azonosító</string>
-    <string name="change_password"><![CDATA[<u>Jelszó váltása</u>]]></string>
+    <string name="lastLogin">Utolsó belépés</string>
+    <string name="change_password"><u>Jelszó váltása</u>></string>
     <string name="save_name_change">Névváltozás mentése</string>
     <string name="drop_logo">Water drop logo</string>
     <string name="forgotten_pass">Elfelejtett jelszó</string>
@@ -40,7 +40,8 @@
     <string name="password_reset">Jelszó visszaállítás</string>
     <string name="unknown_error">Ismeretlen hiba</string>
     <string name="missing_fingerprint_error">Hiányzó ujjlenyomat</string>
-    <string name="auth_error">"Azonosítási hiba: "</string>
+    <string name="auth_error">"Azonosítási hiba"</string>
     <string name="two_step_verify">Kétlépcsős azonosítás</string>
     <string name="error_invalid_input">Hibás beviteli mező(k)</string>
+    <string name="auth_failed">Sikertelen azonosítás</string>
 </resources>

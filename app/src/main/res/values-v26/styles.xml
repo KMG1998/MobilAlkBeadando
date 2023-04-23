@@ -5,8 +5,10 @@
         <item name="android:textSize">20sp</item>
         <item name="android:layout_height">48dp</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:paddingVertical">10dp</item>
-        <item name="android:paddingHorizontal">5dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">5dp</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_marginHorizontal">@dimen/default_horizontal_margin</item>
     </style>
