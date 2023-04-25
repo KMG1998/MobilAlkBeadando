@@ -31,41 +31,40 @@ public final class FireBaseProvider {
 
 
     public Task<AuthResult> loginWithEmail(String email, String password) {
-        return mFirebaseAuth.signInWithEmailAndPassword(email, password).addOnFailureListener(e -> Log.e("error", e.getMessage())).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-            @Override
-            public void onSuccess(AuthResult authResult) {
-                userDataCollection.whereEqualTo("userId", mFirebaseAuth.getCurrentUser().getUid()).get().addOnSuccessListener(queryDocumentSnapshots -> {
-                    for (QueryDocumentSnapshot docSnap : queryDocumentSnapshots) {
-                        UserData item = docSnap.toObject(UserData.class);
-                        item.setLastLogin(Timestamp.now());
-                        userDataCollection.document(docSnap.getId()).set(item);
-                        currentUser = mFirebaseAuth.getCurrentUser();
-                    }
-                });
-            }
-        });
+        return mFirebaseAuth.signInWithEmailAndPassword(email, password).addOnFailureListener(e -> Log.e("fbaseloginError", e.getMessage()))
+                .addOnSuccessListener(authResult -> userDataCollection
+                        .whereEqualTo("userId", mFirebaseAuth.getCurrentUser().getUid()).get().addOnSuccessListener(queryDocumentSnapshots -> {
+                            for (QueryDocumentSnapshot docSnap : queryDocumentSnapshots) {
+                                UserData item = docSnap.toObject(UserData.class);
+                                item.setLastLogin(Timestamp.now());
+                                userDataCollection.document(docSnap.getId()).set(item);
+                                currentUser = mFirebaseAuth.getCurrentUser();
+                            }
+                        }));
     }
 
     public Task<AuthResult> registerUser(String email, String password) {
         return mFirebaseAuth.createUserWithEmailAndPassword(email, password);
     }
 
-    public Task<DocumentReference> createUserData(String userName, String birthDate, String userId){
+    public Task<DocumentReference> createUserData(String userName, String birthDate, String userId) {
         UserData userData = new UserData(birthDate, Timestamp.now(), userId, userName);
         return userDataCollection.add(userData);
     }
 
-    public Task<QuerySnapshot> getStatementsForUser(){
-        return statementCollection.whereEqualTo("userId",currentUser.getUid()).get();
+    public Task<QuerySnapshot> getStatementsForUser() {
+        return statementCollection.whereEqualTo("userId", currentUser.getUid()).get();
     }
-    public Task<QuerySnapshot> getStatementsForUser(long limit){
-        return statementCollection.whereEqualTo("userId",currentUser.getUid()).limit(limit).get();
+
+    public Task<QuerySnapshot> getStatementsForUser(long limit) {
+        return statementCollection.whereEqualTo("userId", currentUser.getUid()).limit(limit).get();
     }
-    public void logOut(){
+
+    public void logOut() {
         mFirebaseAuth.signOut();
     }
 
-    public Task<Void> sendPasswReset(String email){
-       return mFirebaseAuth.sendPasswordResetEmail(email);
+    public Task<Void> sendPasswReset(String email) {
+        return mFirebaseAuth.sendPasswordResetEmail(email);
     }
 }

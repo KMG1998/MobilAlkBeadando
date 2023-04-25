@@ -34,8 +34,8 @@
 
     <EditText
         android:id="@+id/loginEmail"
+        android:layout_width="300dp"
         style="@style/DefaultInputStyle"
-        android:layout_width="match_parent"
         android:layout_marginHorizontal="@dimen/default_horizontal_margin"
         android:autofillHints="emailAddress"
         android:background="@drawable/default_input_bg"
@@ -49,6 +49,7 @@
 
     <EditText
         android:id="@+id/loginPassword"
+        android:layout_width="300dp"
         style="@style/DefaultInputStyle"
         android:layout_marginHorizontal="@dimen/default_horizontal_margin"
         android:autofillHints="password"
@@ -75,6 +76,7 @@
     <TextView
         style="@style/ProfileInfoFieldStyle"
         android:layout_width="wrap_content"
+        android:minHeight="48dp"
         android:layout_height="wrap_content"
         android:onClick="showForgottenPassDialog"
         android:text="@string/forgotten_pass"
@@ -90,6 +92,7 @@
         style="@style/RegistrationText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:minHeight="48dp"
         android:onClick="goToRegister"
         android:text="@string/register_underline"
         app:layout_constraintBottom_toBottomOf="parent"

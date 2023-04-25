@@ -16,4 +16,6 @@
     <string name="register_success_toast">Regisztráció sikeres</string>
     <string name="userIdLabel">Azonosító</string>
     <string name="auth_failed">Sikertelen azonosítás</string>
+    <string name="bio_auth_request_data">Kérjük adjon meg biometrikus azonosítási adatokat</string>
+    <string name="continue_str">Tovább</string>
 </resources>

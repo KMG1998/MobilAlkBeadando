@@ -44,4 +44,6 @@
     <string name="two_step_verify">Kétlépcsős azonosítás</string>
     <string name="error_invalid_input">Hibás beviteli mező(k)</string>
     <string name="auth_failed">Sikertelen azonosítás</string>
+    <string name="bio_auth_request_data">Kérjük adjon meg biometrikus azonosítási adatokat</string>
+    <string name="continue_str">Tovább</string>
 </resources>
