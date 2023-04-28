@@ -46,4 +46,5 @@
     <string name="auth_failed">Sikertelen azonosítás</string>
     <string name="bio_auth_request_data">Kérjük adjon meg biometrikus azonosítási adatokat</string>
     <string name="continue_str">Tovább</string>
+    <string name="take_photo">fényképezés</string>
 </resources>

@@ -1,27 +1,18 @@
 package com.example.mobilalk_vizora.activities;
 
-import static androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG;
-import static androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_WEAK;
-import static androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL;
-
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.biometric.BiometricManager;
-import androidx.biometric.BiometricPrompt;
-import androidx.core.content.ContextCompat;
+import androidx.core.app.ActivityCompat;
 
 import com.example.mobilalk_vizora.R;
 import com.example.mobilalk_vizora.fireBaseProvider.FireBaseProvider;
@@ -33,8 +24,6 @@ public class LoginActivity extends AppCompatActivity {
     FireBaseProvider fBaseProvider;
     EditText emailInput;
     EditText passwordInput;
-    BiometricManager bioManager;
-    BiometricPrompt biometricPrompt;
 
     private String LOG_TAG = LoginActivity.class.getName();
 
@@ -50,7 +39,6 @@ public class LoginActivity extends AppCompatActivity {
         passwordInput = findViewById(R.id.loginPassword);
         emailInput.setOnFocusChangeListener(emailFocusListener);
         passwordInput.setOnFocusChangeListener(passwordFocusListener);
-        bioManager = BiometricManager.from(this);
     }
 
     public void goToRegister(View view) {
@@ -60,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onLoginClick(View view) {
         if (validateInputs()) {
-            checkBiometricSupport();
+            loginWithEmail();
         } else {
             Toast.makeText(this, getString(R.string.error_invalid_input), Toast.LENGTH_LONG).show();
         }
@@ -134,75 +122,4 @@ public class LoginActivity extends AppCompatActivity {
     public void onBackPressed() {
         //empty on back pressed to prevent accidental closing of the app
     }
-
-    private void checkBiometricSupport() {
-        switch (bioManager.canAuthenticate(BIOMETRIC_STRONG|DEVICE_CREDENTIAL)) {
-            case BiometricManager.BIOMETRIC_SUCCESS: {
-                biometricPrompt = new BiometricPrompt(LoginActivity.this, ContextCompat.getMainExecutor(this), new BiometricPrompt.AuthenticationCallback() {
-                    @Override
-                    public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
-                        super.onAuthenticationError(errorCode, errString);
-                    }
-
-                    @Override
-                    public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
-                        super.onAuthenticationSucceeded(result);
-                        loginWithEmail();
-                    }
-
-                    @Override
-                    public void onAuthenticationFailed() {
-                        super.onAuthenticationFailed();
-                    }
-                });
-                BiometricPrompt.PromptInfo promptInfo = buildBiometricPrompt();
-                biometricPrompt.authenticate(promptInfo);
-                break;
-            }
-            case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED: {
-                showBioAuthRequestDialog();
-                break;
-            }
-            default: loginWithEmail(); break;
-        }
-    }
-
-    private BiometricPrompt.PromptInfo buildBiometricPrompt()
-    {
-        return new BiometricPrompt.PromptInfo.Builder()
-                .setTitle(getString(R.string.two_step_verify))
-                .setAllowedAuthenticators(BIOMETRIC_STRONG | DEVICE_CREDENTIAL)
-                .build();
-
-    }
-
-    private void showBioAuthRequestDialog(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-        builder.setTitle(R.string.password_reset);
-        LinearLayout linearLayout = new LinearLayout(this);
-        final TextView desc = new TextView(this);
-
-        // write the email using which you registered
-        desc.setText(R.string.bio_auth_request_data);
-        linearLayout.addView(desc);
-        linearLayout.setPadding(10, 10, 10, 10);
-        builder.setView(linearLayout);
-        builder.setCancelable(false);
-
-        // Click on Recover and a email will be sent to your registered email id
-        builder.setPositiveButton(getString(R.string.continue_str), (dialog, which) -> {
-            final Intent enrollIntent = new Intent(Settings.ACTION_BIOMETRIC_ENROLL);
-            enrollIntent.putExtra(Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED,
-                    BIOMETRIC_STRONG | BIOMETRIC_WEAK);
-            intentActivityResultLauncher.launch(enrollIntent);
-            dialog.dismiss();
-        });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
-
-    private ActivityResultLauncher<Intent> intentActivityResultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> checkBiometricSupport());
 }
