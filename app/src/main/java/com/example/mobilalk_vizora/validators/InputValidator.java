@@ -1,16 +1,9 @@
 package com.example.mobilalk_vizora.validators;
 
 import android.content.Context;
-import android.os.Build;
 import android.text.TextUtils;
 
-import androidx.annotation.RequiresApi;
-
 import com.example.mobilalk_vizora.R;
-import com.example.mobilalk_vizora.formatters.DateFormatters;
-
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 public final class InputValidator {
     Context ctx;

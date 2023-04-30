@@ -34,7 +34,7 @@
         <item name="android:layout_marginRight">@dimen/default_horizontal_margin</item>
     </style>
 
-    <style name="ProfileInfoFieldStyle" parent="TextAppearance.AppCompat">
+    <style name="ListInfoTextStyle" parent="TextAppearance.AppCompat">
         <item name="android:layout_height">48dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:textColor">@color/black</item>

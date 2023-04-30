@@ -4,31 +4,22 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mobilalk_vizora.R;
-
 import com.example.mobilalk_vizora.fireBaseProvider.FireBaseProvider;
+import com.example.mobilalk_vizora.formatters.DateFormatters;
 import com.example.mobilalk_vizora.validators.InputValidator;
 import com.example.mobilalk_vizora.validators.ValidationResult;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.DateValidatorPointBackward;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -37,7 +28,6 @@ import java.util.TimeZone;
 public class RegisterActivity extends AppCompatActivity {
 
     EditText emailEditText;
-    EditText nameEditText;
     EditText birthEditText;
     EditText passwordEditText;
     EditText passwordRepEditText;
@@ -46,8 +36,6 @@ public class RegisterActivity extends AppCompatActivity {
     InputValidator inputValidator;
     FireBaseProvider fBaseProvider;
 
-    private static final String LOG_TAG = RegisterActivity.class.getName();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +43,6 @@ public class RegisterActivity extends AppCompatActivity {
         inputValidator = new InputValidator(this);
         fBaseProvider = new FireBaseProvider();
         emailEditText = findViewById(R.id.registerEmail);
-        nameEditText = findViewById(R.id.registerName);
         birthEditText = findViewById(R.id.registerBirth);
         passwordEditText = findViewById(R.id.registerPass);
         passwordRepEditText = findViewById(R.id.registerPassRep);
@@ -68,7 +55,6 @@ public class RegisterActivity extends AppCompatActivity {
         birthEditText.setInputType(InputType.TYPE_NULL);
         birthEditText.setOnFocusChangeListener(birthFocusListener);
         emailEditText.setOnFocusChangeListener(emailFocusListener);
-        nameEditText.setOnFocusChangeListener(nameFocusListener);
         passwordEditText.setOnFocusChangeListener(passwordFocusListener);
         passwordRepEditText.setOnFocusChangeListener(passwordRepFocusListener);
 
@@ -81,11 +67,10 @@ public class RegisterActivity extends AppCompatActivity {
             registerButton.setEnabled(false);
             String email = emailEditText.getText().toString();
             String password = passwordEditText.getText().toString();
-            String userName = nameEditText.getText().toString();
             String birthDate = birthEditText.getText().toString();
             fBaseProvider.registerUser(email, password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    fBaseProvider.createUserData(userName, birthDate, task.getResult().getUser().getUid()).addOnCompleteListener(documentReference -> {
+                    fBaseProvider.createUserData(birthDate, task.getResult().getUser().getUid()).addOnCompleteListener(documentReference -> {
                         if (documentReference.isSuccessful()) {
                             Toast.makeText(RegisterActivity.this, R.string.register_success_toast, Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(this, LoginActivity.class);
@@ -97,13 +82,12 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, R.string.error_register_failed, Toast.LENGTH_LONG).show();
                     registerButton.setEnabled(true);
                 }
-                ;
             });
         }
     }
 
     private boolean validateFields() {
-        return emailEditText.getError() == null && nameEditText.getError() == null && birthEditText.getError() == null && passwordEditText.getError() == null && passwordRepEditText.getError() == null;
+        return emailEditText.getError() == null && birthEditText.getError() == null && passwordEditText.getError() == null && passwordRepEditText.getError() == null;
 
     }
 
@@ -122,8 +106,7 @@ public class RegisterActivity extends AppCompatActivity {
     MaterialPickerOnPositiveButtonClickListener<Long> datePickerPositiveListener = selection -> {
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         calendar.setTimeInMillis(selection);
-        SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd");
-        String formattedDate = format.format(calendar.getTime());
+        String formattedDate = DateFormatters.getDateFormat().format(calendar.getTime());
         birthEditText.setText(formattedDate);
     };
 
@@ -140,13 +123,6 @@ public class RegisterActivity extends AppCompatActivity {
         if (!hasFocus) {
             ValidationResult valRes = inputValidator.validatePassword(passwordEditText.getText().toString());
             passwordEditText.setError(valRes.getError());
-        }
-    };
-
-    View.OnFocusChangeListener nameFocusListener = (v, hasFocus) -> {
-        if (!hasFocus) {
-            ValidationResult valRes = inputValidator.validateUserName(nameEditText.getText().toString());
-            nameEditText.setError(valRes.getError());
         }
     };
 

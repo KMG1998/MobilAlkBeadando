@@ -3,10 +3,10 @@ package com.example.mobilalk_vizora.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.example.mobilalk_vizora.R;
+import com.example.mobilalk_vizora.adapters.StatementListAdapter;
 import com.example.mobilalk_vizora.fireBaseProvider.FireBaseProvider;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -21,8 +21,8 @@ import com.example.mobilalk_vizora.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-
     private final FireBaseProvider fBaseProvider = new FireBaseProvider();
+    private StatementListAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +56,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent loginIntent = new Intent(this, LoginActivity.class);
                 loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(loginIntent);
-                break;
-            case R.id.profileMenuButton:
-                Intent profileIntent = new Intent(this, ProfileActivity.class);
-                startActivity(profileIntent);
                 break;
             default:
                 break;

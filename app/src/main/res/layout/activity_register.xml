@@ -21,20 +21,6 @@
         tools:layout_editor_absoluteX="20dp" />
 
     <EditText
-        android:id="@+id/registerName"
-        style="@style/DefaultInputStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/default_input_bg"
-        android:hint="@string/name_hint"
-        android:importantForAutofill="no"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerEmail"
-        app:layout_constraintVertical_bias="0.062"
-        tools:layout_editor_absoluteX="16dp" />
-
-    <EditText
         android:id="@+id/registerBirth"
         style="@style/DefaultInputStyle"
         android:layout_width="match_parent"
@@ -44,7 +30,7 @@
         android:importantForAutofill="no"
         android:inputType="none"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerName"
+        app:layout_constraintTop_toBottomOf="@+id/registerEmail"
         app:layout_constraintVertical_bias="0.068"
         tools:layout_editor_absoluteX="20dp" />
 

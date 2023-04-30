@@ -5,6 +5,7 @@ import static android.app.Activity.RESULT_OK;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -13,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -21,14 +23,21 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.mobilalk_vizora.R;
 import com.example.mobilalk_vizora.databinding.FragmentUploadBinding;
+import com.example.mobilalk_vizora.fireBaseProvider.FireBaseProvider;
 import com.example.mobilalk_vizora.model.Statement;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 public class UploadFragment extends Fragment {
 
     private FragmentUploadBinding binding;
     private List<Statement> userStatements;
+    private byte[] imageFileBytes;
+    private FireBaseProvider mFbaseProvider = new FireBaseProvider();
+
+    private Bitmap img;
+
     private int tag = 1;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -47,6 +56,26 @@ public class UploadFragment extends Fragment {
                 } else {
                     takePhoto();
                 }
+            }
+        });
+
+        binding.sendButton.setOnClickListener(v -> {
+           if(validateInputs()){
+                binding.sendButton.setEnabled(false);
+                mFbaseProvider.createNewStatement(binding.newUploadAmount.getText().toString(), imageFileBytes).addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        Toast.makeText(UploadFragment.this.getContext(), R.string.upload_success, Toast.LENGTH_SHORT).show();
+                        binding.sendButton.setEnabled(true);
+                        img.recycle();
+                    }else{
+                        Toast.makeText(UploadFragment.this.getContext(), R.string.upload_failed, Toast.LENGTH_SHORT).show();
+                        binding.sendButton.setEnabled(true);
+                    }
+                }).addOnFailureListener(e -> {
+                    Toast.makeText(UploadFragment.this.getContext(), R.string.upload_failed, Toast.LENGTH_SHORT).show();
+                });
+            }else {
+                Toast.makeText(UploadFragment.this.getContext() ,R.string.error_invalid_input, Toast.LENGTH_SHORT).show();
             }
         });
         return root;
@@ -73,11 +102,18 @@ public class UploadFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if(requestCode == tag && resultCode == RESULT_OK) {
             Bundle b = data.getExtras();
-            Bitmap img = (Bitmap) b.get("data");
+            img = (Bitmap) b.get("data");
             binding.uploadPic.setImageBitmap(img);
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            img.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            imageFileBytes = stream.toByteArray();
         }
+    }
+
+    private boolean validateInputs(){
+        return binding.newUploadAmount.getText().length() > 0 && binding.newUploadAmount.getError() == null
+                && binding.uploadPic.getDrawable() != null;
     }
 }

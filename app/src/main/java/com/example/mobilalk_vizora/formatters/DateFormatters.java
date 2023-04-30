@@ -1,15 +1,15 @@
 package com.example.mobilalk_vizora.formatters;
 
-import java.time.format.DateTimeFormatter;
+import java.text.SimpleDateFormat;
 
 public final class DateFormatters {
     private DateFormatters(){
         throw new IllegalStateException("Cannot be instantiated");
     }
 
-    private static DateTimeFormatter birthDateFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+    private static SimpleDateFormat dateF =new SimpleDateFormat("yyyy.MM.dd");
 
-    public static DateTimeFormatter getBirthDateFormatter() {
-        return birthDateFormatter;
+    public static SimpleDateFormat getDateFormat() {
+        return dateF;
     }
 }

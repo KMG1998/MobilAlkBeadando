@@ -15,10 +15,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.mobilalk_vizora.R;
 import com.example.mobilalk_vizora.activities.LoginActivity;
-import com.example.mobilalk_vizora.activities.ProfileActivity;
 import com.example.mobilalk_vizora.databinding.FragmentHomeBinding;
 import com.example.mobilalk_vizora.fireBaseProvider.FireBaseProvider;
-import com.google.firebase.auth.FirebaseUser;
 
 public class HomeFragment extends Fragment {
 
@@ -58,10 +56,6 @@ public class HomeFragment extends Fragment {
                 Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
                 getActivity().finish();
                 startActivity(loginIntent);
-                return true;
-            case R.id.profileMenuButton:
-                Intent profileIntent = new Intent(getActivity(), ProfileActivity.class);
-                startActivity(profileIntent);
                 return true;
             default: return false;
         }

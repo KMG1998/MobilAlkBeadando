@@ -47,4 +47,8 @@
     <string name="bio_auth_request_data">Kérjük adjon meg biometrikus azonosítási adatokat</string>
     <string name="continue_str">Tovább</string>
     <string name="take_photo">fényképezés</string>
+    <string name="upload_success">Feltöltés sikeres</string>
+    <string name="upload_failed">Feltöltés sikertelen</string>
+    <string name="photo">Kép</string>
+    <string name="listing_failure">Sikertelen megjelenítés</string>
 </resources>

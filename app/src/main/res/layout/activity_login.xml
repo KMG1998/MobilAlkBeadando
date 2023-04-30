@@ -74,7 +74,7 @@
         app:layout_constraintVertical_bias="0.186" />
 
     <TextView
-        style="@style/ProfileInfoFieldStyle"
+        style="@style/ListInfoTextStyle"
         android:layout_width="wrap_content"
         android:minHeight="48dp"
         android:layout_height="wrap_content"

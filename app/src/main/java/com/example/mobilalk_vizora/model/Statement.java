@@ -7,12 +7,12 @@ public class Statement {
     private boolean approved;
     private Timestamp timestamp;
     private String userId;
-    private double waterAmount;
+    private String waterAmount;
 
     public Statement() {
     }
 
-    public Statement(boolean approved,Timestamp timestamp, String userId, double waterAmount) {
+    public Statement(boolean approved,Timestamp timestamp, String userId, String waterAmount) {
         this.approved = approved;
         this.timestamp = timestamp;
         this.userId = userId;
@@ -35,11 +35,11 @@ public class Statement {
         this.userId = userId;
     }
 
-    public double getWaterAmount() {
+    public String getWaterAmount() {
         return waterAmount;
     }
 
-    public void setWaterAmount(double waterAmount) {
+    public void setWaterAmount(String waterAmount) {
         this.waterAmount = waterAmount;
     }
 
