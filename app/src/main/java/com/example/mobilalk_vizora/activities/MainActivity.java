@@ -4,12 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.mobilalk_vizora.R;
 import com.example.mobilalk_vizora.adapters.StatementListAdapter;
 import com.example.mobilalk_vizora.fireBaseProvider.FireBaseProvider;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -17,12 +18,19 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.mobilalk_vizora.databinding.ActivityMainBinding;
+import com.example.mobilalk_vizora.model.Statement;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import org.checkerframework.checker.units.qual.A;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private final FireBaseProvider fBaseProvider = new FireBaseProvider();
-    private StatementListAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +39,6 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_upload, R.id.navigation_home, R.id.navigation_history)
                 .build();

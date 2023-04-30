@@ -22,7 +22,6 @@
     <string name="error_name_length">A névnek legalább 3 karakternek kell lennie</string>
     <string name="error_required_field">Kötelező mező</string>
     <string name="error_email_format">Hibás email formátum</string>
-    <string name="error_date_not_in_past">Múltban lévő dátum szükséges</string>
     <string name="error_username_length">A névnek legalább 4 karakter hosszúnak lennie</string>
     <string name="error_passw_mismatch">A két jelszó nem egyezik</string>
     <string name="error_register_failed">Regisztráció sikertelen</string>
@@ -50,5 +49,6 @@
     <string name="upload_success">Feltöltés sikeres</string>
     <string name="upload_failed">Feltöltés sikertelen</string>
     <string name="photo">Kép</string>
-    <string name="listing_failure">Sikertelen megjelenítés</string>
+    <string name="listing_failure">Sikertelen listázás</string>
+    <string name="date">Dátum</string>
 </resources>

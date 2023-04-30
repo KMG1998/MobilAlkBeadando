@@ -32,8 +32,7 @@ import java.util.List;
 public class UploadFragment extends Fragment {
 
     private FragmentUploadBinding binding;
-    private List<Statement> userStatements;
-    private byte[] imageFileBytes;
+    private Uri imageUri;
     private FireBaseProvider mFbaseProvider = new FireBaseProvider();
 
     private Bitmap img;
@@ -62,7 +61,7 @@ public class UploadFragment extends Fragment {
         binding.sendButton.setOnClickListener(v -> {
            if(validateInputs()){
                 binding.sendButton.setEnabled(false);
-                mFbaseProvider.createNewStatement(binding.newUploadAmount.getText().toString(), imageFileBytes).addOnCompleteListener(task -> {
+                mFbaseProvider.createNewStatement(binding.newUploadAmount.getText().toString(), imageUri).addOnCompleteListener(task -> {
                     if(task.isSuccessful()){
                         Toast.makeText(UploadFragment.this.getContext(), R.string.upload_success, Toast.LENGTH_SHORT).show();
                         binding.sendButton.setEnabled(true);
@@ -103,12 +102,10 @@ public class UploadFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == tag && resultCode == RESULT_OK) {
+            imageUri = data.getData();
             Bundle b = data.getExtras();
             img = (Bitmap) b.get("data");
             binding.uploadPic.setImageBitmap(img);
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            img.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            imageFileBytes = stream.toByteArray();
         }
     }
 

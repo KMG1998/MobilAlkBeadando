@@ -43,7 +43,7 @@ public class Statement {
         this.waterAmount = waterAmount;
     }
 
-    public boolean isApproved() {
+    public boolean getApproved() {
         return approved;
     }
 

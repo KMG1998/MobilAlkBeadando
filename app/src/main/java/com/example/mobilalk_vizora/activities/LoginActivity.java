@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -58,7 +59,8 @@ public class LoginActivity extends AppCompatActivity {
         String email = emailInput.getText().toString();
         String passw = passwordInput.getText().toString();
         fBaseProvider.loginWithEmail(email, passw).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
+            Log.d("login_tag","on login outer complete");
+            if (task.isSuccessful() && fBaseProvider.getCurrentUser() != null) {
                 Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
                 mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(mainIntent);
