@@ -53,17 +53,13 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.navView, navController);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 
+        //job scheduler to simulate admin side statement approval
         JobScheduler jobScheduler = getSystemService(JobScheduler.class);
         ComponentName compName = new ComponentName(this, ApproveStatementJobService.class);
         JobInfo.Builder jobInfo = new JobInfo.Builder((int) (Math.random() * 100), compName);
         jobInfo.setMinimumLatency(1 * 20 * 1000).setTriggerContentMaxDelay(1 * 60 * 1000).setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
         if (jobScheduler != null) {
-            int res = jobScheduler.schedule(jobInfo.build());
-            if (res == JobScheduler.RESULT_SUCCESS) {
-                Toast.makeText(this, "Statement approve job started", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(this, "Statement approve job failed to start", Toast.LENGTH_LONG).show();
-            }
+            jobScheduler.schedule(jobInfo.build());
         }
     }
 

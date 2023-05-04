@@ -16,6 +16,7 @@
         android:hint="@string/water_amount"
         android:importantForAutofill="no"
         android:inputType="number"
+        android:textColorHint="@color/hint_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.6"
@@ -26,6 +27,7 @@
     <ImageView
         android:id="@+id/uploadPic"
         android:layout_width="284dp"
+        android:src="@drawable/ic_android_black_24dp"
         android:layout_height="284dp"
         android:layout_gravity="center"
         android:layout_marginHorizontal="@dimen/default_horizontal_margin"

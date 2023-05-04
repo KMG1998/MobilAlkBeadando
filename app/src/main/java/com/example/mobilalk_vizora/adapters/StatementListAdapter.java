@@ -1,7 +1,6 @@
 package com.example.mobilalk_vizora.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,18 +10,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobilalk_vizora.R;
 import com.example.mobilalk_vizora.fireBaseProvider.FireBaseProvider;
 import com.example.mobilalk_vizora.formatters.DateFormatters;
 import com.example.mobilalk_vizora.model.Statement;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class StatementListAdapter extends RecyclerView.Adapter<StatementListAdapter.ViewHolder> {
 
@@ -64,13 +60,6 @@ public class StatementListAdapter extends RecyclerView.Adapter<StatementListAdap
         return statements.size();
     }
 
-   public void update(ArrayList<Statement> data) {
-        statements.clear();
-        Log.d(LOG_TAG,"data size is "+data.size());
-        Log.d(LOG_TAG,"adapter dataset size after add is "+statements.size());
-        notifyDataSetChanged();
-    }
-
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView textViewAmount;
         private TextView textViewDate;
@@ -92,7 +81,9 @@ public class StatementListAdapter extends RecyclerView.Adapter<StatementListAdap
                     textViewDate.setText(DateFormatters.getTimestampFormat().format(currentItem.getTimestamp().toDate()));
                     textViewApproved.setText(currentItem.getApproved() ?
                             R.string.approved : R.string.waiting_for_approval);
-                    Picasso.get().load(task.getResult().toString()).into(listImage);
+                    if(listImage != null) {
+                        Picasso.get().load(task.getResult().toString()).into(listImage);
+                    }
                 } else {
                     Toast.makeText(context, R.string.listing_failure, Toast.LENGTH_SHORT).show();
                 }

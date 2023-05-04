@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.mobilalk_vizora.R;
 import com.example.mobilalk_vizora.activities.LoginActivity;
+import com.example.mobilalk_vizora.activities.ProfileActivity;
 import com.example.mobilalk_vizora.adapters.StatementListAdapter;
 import com.example.mobilalk_vizora.databinding.FragmentHomeBinding;
 import com.example.mobilalk_vizora.fireBaseProvider.FireBaseProvider;
@@ -46,24 +47,10 @@ public class HomeFragment extends Fragment {
         setHasOptionsMenu(true);
         View root = binding.getRoot();
         binding.statementsListView.setLayoutManager(new LinearLayoutManager(getContext()));
-        statements = new ArrayList();
+        statements = new ArrayList<>();
         loadData().addOnCompleteListener(loadTask -> {
             stmtAdapter = new StatementListAdapter(getContext(), statements);
             binding.statementsListView.setAdapter(stmtAdapter);
-        });
-
-        binding.homeRefreshLayout.setOnRefreshListener(() -> {
-            statements.clear();
-            Log.d(LOG_TAG, "before update, size is " + statements.size());
-            loadData().addOnCompleteListener(loadTask -> {
-                if(loadTask.isSuccessful()) {
-                    Log.d(LOG_TAG, "in update, size is " + statements.size());
-                    stmtAdapter.update(statements);
-                }else{
-                    Log.d(LOG_TAG,"update data getting failed");
-                }
-            });
-            binding.homeRefreshLayout.setRefreshing(false);
         });
 
         return root;
@@ -79,20 +66,6 @@ public class HomeFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.top_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.logoutMenuButton:
-                fBaseProvider.logOut();
-                Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
-                getActivity().finish();
-                startActivity(loginIntent);
-                return true;
-            default:
-                return false;
-        }
     }
 
     private Task<QuerySnapshot> loadData() {

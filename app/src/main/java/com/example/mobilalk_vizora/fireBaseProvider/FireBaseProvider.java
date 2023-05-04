@@ -115,7 +115,7 @@ public final class FireBaseProvider {
     }
 
     public Task<QuerySnapshot> approveStatementsForCurrentUser() {
-        return statementCollection.whereEqualTo("userId", currentUser.getUid()).get().addOnCompleteListener(task -> {
+        return statementCollection.whereEqualTo("userId", currentUser.getUid()).whereEqualTo("approved",false).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 task.getResult().forEach(stmtSnap -> {
                     Statement item = stmtSnap.toObject(Statement.class);

@@ -19,17 +19,16 @@ public class ApproveStatementJobService extends JobService {
 
     @Override
     public boolean onStartJob(JobParameters params) {
-        final boolean[] approveSuccess = new boolean[1];
         fBaseProvider.approveStatementsForCurrentUser().addOnCompleteListener(approveTask -> {
             if(approveTask.isSuccessful()){
-                approveSuccess[0] = false;
-                Toast.makeText(getApplicationContext(), R.string.statement_approve_success,Toast.LENGTH_SHORT).show();
+                if(approveTask.getResult().size() > 0){
+                    Toast.makeText(getApplicationContext(), R.string.statement_approve_success,Toast.LENGTH_SHORT).show();
+                }
             }else{
-                approveSuccess[0] = true;
                 Toast.makeText(getApplicationContext(), R.string.statement_approve_failed,Toast.LENGTH_SHORT).show();
             }
         });
-        return approveSuccess[0];
+        return true;
     }
 
     @Override

@@ -9,8 +9,7 @@
     <string name="nav_title_new">Új</string>
     <string name="nav_title_history">Korábbi</string>
     <string name="recent_uploads">Legutóbbi bejelentések</string>
-    <string name="register_underline"><u>Regisztráció</u></string>
-    <string name="register_title">Regisztráció</string>
+    <string name="register">Regisztráció</string>
     <string name="previous_uploads_title">Korábbi bejelentések</string>
     <string name="profile">Profil</string>
     <string name="logout">Kilépés</string>
@@ -60,4 +59,5 @@
     <string name="waiting_for_approval">Jóváhagyásra vár</string>
     <string name="statement_approve_success">bejelentések jóváhagyva</string>
     <string name="statement_approve_failed">bejelentések jóváhagyása sikertelen</string>
+    <string name="status">Állapot</string>
 </resources>

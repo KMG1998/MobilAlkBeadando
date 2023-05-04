@@ -36,7 +36,7 @@ public class HistoryFragment extends Fragment {
         View root = binding.getRoot();
         binding.historyList.setLayoutManager(new LinearLayoutManager(getContext()));
         fBaseProvider.getStatementsForUser().addOnCompleteListener(task -> {
-            ArrayList<Statement> statements = new ArrayList();
+            ArrayList<Statement> statements = new ArrayList<>();
             if (task.isSuccessful()) {
                 task.getResult().forEach(snap -> {
                     Statement stm = snap.toObject(Statement.class);

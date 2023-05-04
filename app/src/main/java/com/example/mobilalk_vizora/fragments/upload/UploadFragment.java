@@ -45,8 +45,6 @@ public class UploadFragment extends Fragment {
 
     private int tag = 1;
 
-    Animation fadeIn;
-    Animation fadeOut;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         UploadViewModel uploadViewModel =
@@ -139,6 +137,6 @@ public class UploadFragment extends Fragment {
 
     private boolean validateInputs(){
         return binding.newUploadAmount.getText().length() > 0 && binding.newUploadAmount.getError() == null
-                && binding.uploadPic.getDrawable() != null;
+                && imageBytes != null;
     }
 }
