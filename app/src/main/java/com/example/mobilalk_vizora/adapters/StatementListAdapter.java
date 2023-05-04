@@ -31,6 +31,8 @@ public class StatementListAdapter extends RecyclerView.Adapter<StatementListAdap
     FireBaseProvider fBaseProvider = new FireBaseProvider();
     private int lastPosition = -1;
 
+    String LOG_TAG = StatementListAdapter.class.getName();
+
     public StatementListAdapter(Context ctx, ArrayList<Statement> statements) {
         this.context = ctx;
         this.statements = statements;
@@ -50,7 +52,7 @@ public class StatementListAdapter extends RecyclerView.Adapter<StatementListAdap
         // Populate the textviews with data.
         holder.bindTo(currentItem);
 
-        if(holder.getAdapterPosition() > lastPosition) {
+        if (holder.getAdapterPosition() > lastPosition) {
             Animation animation = AnimationUtils.loadAnimation(context, R.anim.slide_in_row);
             holder.itemView.startAnimation(animation);
             lastPosition = holder.getAdapterPosition();
@@ -62,9 +64,17 @@ public class StatementListAdapter extends RecyclerView.Adapter<StatementListAdap
         return statements.size();
     }
 
+   public void update(ArrayList<Statement> data) {
+        statements.clear();
+        Log.d(LOG_TAG,"data size is "+data.size());
+        Log.d(LOG_TAG,"adapter dataset size after add is "+statements.size());
+        notifyDataSetChanged();
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView textViewAmount;
         private TextView textViewDate;
+        private TextView textViewApproved;
         private ImageView listImage;
 
         public ViewHolder(View itemView) {
@@ -72,17 +82,19 @@ public class StatementListAdapter extends RecyclerView.Adapter<StatementListAdap
             textViewAmount = itemView.findViewById(R.id.textViewAmount);
             textViewDate = itemView.findViewById(R.id.textViewDate);
             listImage = itemView.findViewById(R.id.listImage);
+            textViewApproved = itemView.findViewById(R.id.textViewApproved);
         }
 
         void bindTo(Statement currentItem) {
             fBaseProvider.getImageForStatement(currentItem).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     textViewAmount.setText(currentItem.getWaterAmount());
-                    Date time = new Date(currentItem.getTimestamp().getSeconds());
-                    textViewDate.setText(DateFormatters.getDateFormat().format(time));
+                    textViewDate.setText(DateFormatters.getTimestampFormat().format(currentItem.getTimestamp().toDate()));
+                    textViewApproved.setText(currentItem.getApproved() ?
+                            R.string.approved : R.string.waiting_for_approval);
                     Picasso.get().load(task.getResult().toString()).into(listImage);
                 } else {
-                    Toast.makeText(context,R.string.listing_failure,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, R.string.listing_failure, Toast.LENGTH_SHORT).show();
                 }
             });
         }

@@ -29,13 +29,4 @@ public final class InputValidator {
         }
         return new ValidationResult(true,null);
     }
-
-    public ValidationResult validateUserName(String username){
-        if(TextUtils.isEmpty(username)){
-            return new ValidationResult(false,ctx.getString(R.string.error_required_field));
-        }else if(username.length() < 4){
-            return new ValidationResult(false,ctx.getString(R.string.error_username_length));
-        }
-        return new ValidationResult(true,null);
-    }
 }

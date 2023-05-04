@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.ProfileActivity">
+
+    <TextView
+        android:id="@+id/textView2"
+        style="@style/ActivityTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/profile"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.061"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <TextView
+        android:id="@+id/profilePageBirthHeader"
+        style="@style/ActivityTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/birth_date"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.172"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <TextView
+        android:id="@+id/profilePageBirth"
+        style="@style/ListInfoTextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/birth_date"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.244"
+        tools:layout_editor_absoluteX="20dp" />
+
+    <TextView
+        android:id="@+id/profilePage"
+        style="@style/ActivityTitle"
+        android:text="@string/userIdLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.357"
+        tools:layout_editor_absoluteX="-16dp" />
+
+
+    <TextView
+        android:id="@+id/profilePageId"
+        style="@style/ListInfoTextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/userIdLabel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.444"
+        tools:layout_editor_absoluteX="24dp" />
+
+    <Button
+        android:id="@+id/profileDeleteButton"
+        style="@style/default_button_style"
+        android:text="@string/delete_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.617" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

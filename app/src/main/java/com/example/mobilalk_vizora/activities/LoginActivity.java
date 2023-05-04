@@ -59,8 +59,7 @@ public class LoginActivity extends AppCompatActivity {
         String email = emailInput.getText().toString();
         String passw = passwordInput.getText().toString();
         fBaseProvider.loginWithEmail(email, passw).addOnCompleteListener(task -> {
-            Log.d("login_tag","on login outer complete");
-            if (task.isSuccessful() && fBaseProvider.getCurrentUser() != null) {
+            if (task.isSuccessful()) {
                 Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
                 mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(mainIntent);

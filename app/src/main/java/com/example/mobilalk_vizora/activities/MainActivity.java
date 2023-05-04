@@ -1,9 +1,13 @@
 package com.example.mobilalk_vizora.activities;
 
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.example.mobilalk_vizora.R;
@@ -18,12 +22,14 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.mobilalk_vizora.databinding.ActivityMainBinding;
+import com.example.mobilalk_vizora.jobs.ApproveStatementJobService;
 import com.example.mobilalk_vizora.model.Statement;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import org.checkerframework.checker.units.qual.A;
+import org.checkerframework.checker.units.qual.C;
 
 import java.util.ArrayList;
 
@@ -45,6 +51,20 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+
+        JobScheduler jobScheduler = getSystemService(JobScheduler.class);
+        ComponentName compName = new ComponentName(this, ApproveStatementJobService.class);
+        JobInfo.Builder jobInfo = new JobInfo.Builder((int) (Math.random() * 100), compName);
+        jobInfo.setMinimumLatency(1 * 20 * 1000).setTriggerContentMaxDelay(1 * 60 * 1000).setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
+        if (jobScheduler != null) {
+            int res = jobScheduler.schedule(jobInfo.build());
+            if (res == JobScheduler.RESULT_SUCCESS) {
+                Toast.makeText(this, "Statement approve job started", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "Statement approve job failed to start", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     @Override
@@ -59,8 +79,12 @@ public class MainActivity extends AppCompatActivity {
             case R.id.logoutMenuButton:
                 fBaseProvider.logOut();
                 Intent loginIntent = new Intent(this, LoginActivity.class);
-                loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(loginIntent);
+                break;
+            case R.id.profileMenuButton:
+                Intent profileIntent = new Intent(this, ProfileActivity.class);
+                startActivity(profileIntent);
                 break;
             default:
                 break;

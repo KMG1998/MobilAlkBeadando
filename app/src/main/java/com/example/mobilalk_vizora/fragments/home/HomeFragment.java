@@ -9,7 +9,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,18 +22,19 @@ import com.example.mobilalk_vizora.adapters.StatementListAdapter;
 import com.example.mobilalk_vizora.databinding.FragmentHomeBinding;
 import com.example.mobilalk_vizora.fireBaseProvider.FireBaseProvider;
 import com.example.mobilalk_vizora.model.Statement;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.firebase.Timestamp;
-import com.google.type.DateTime;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class HomeFragment extends Fragment {
 
     FireBaseProvider fBaseProvider;
     private FragmentHomeBinding binding;
     private StatementListAdapter stmtAdapter;
+    private ArrayList<Statement> statements;
+
+    final private String LOG_TAG = HomeFragment.class.getName();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -46,24 +46,26 @@ public class HomeFragment extends Fragment {
         setHasOptionsMenu(true);
         View root = binding.getRoot();
         binding.statementsListView.setLayoutManager(new LinearLayoutManager(getContext()));
-        Log.d("home_tag", "before void get");
-        ArrayList<Statement> statements = new ArrayList();
-        fBaseProvider.getStatementsForUser(5).forEach(snap -> {
-            Statement stm = snap.toObject(Statement.class);
-            statements.add(stm);
-        });/*addOnCompleteListener(task -> {
-            ArrayList<Statement> statements = new ArrayList();
-            if (task.isSuccessful()) {
-                task.getResult().forEach(snap -> {
-                    Statement stm = snap.toObject(Statement.class);
-                    statements.add(stm);
-                });
-            } else {
-                Toast.makeText(getContext(), R.string.listing_failure, Toast.LENGTH_SHORT).show();
-            }*/
+        statements = new ArrayList();
+        loadData().addOnCompleteListener(loadTask -> {
             stmtAdapter = new StatementListAdapter(getContext(), statements);
             binding.statementsListView.setAdapter(stmtAdapter);
-        //});
+        });
+
+        binding.homeRefreshLayout.setOnRefreshListener(() -> {
+            statements.clear();
+            Log.d(LOG_TAG, "before update, size is " + statements.size());
+            loadData().addOnCompleteListener(loadTask -> {
+                if(loadTask.isSuccessful()) {
+                    Log.d(LOG_TAG, "in update, size is " + statements.size());
+                    stmtAdapter.update(statements);
+                }else{
+                    Log.d(LOG_TAG,"update data getting failed");
+                }
+            });
+            binding.homeRefreshLayout.setRefreshing(false);
+        });
+
         return root;
     }
 
@@ -93,4 +95,17 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    private Task<QuerySnapshot> loadData() {
+        return fBaseProvider.getStatementsForUser(2).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                task.getResult().forEach(snap -> {
+                    Statement stm = snap.toObject(Statement.class);
+                    statements.add(stm);
+                });
+            } else {
+                Toast.makeText(getContext(), R.string.listing_failure, Toast.LENGTH_SHORT).show();
+                Log.d(LOG_TAG, task.getException().getMessage());
+            }
+        });
+    }
 }

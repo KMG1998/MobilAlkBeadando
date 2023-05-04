@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -83,11 +84,16 @@ public class RegisterActivity extends AppCompatActivity {
                     registerButton.setEnabled(true);
                 }
             });
+        }else{
+            Toast.makeText(this,R.string.error_invalid_input,Toast.LENGTH_SHORT).show();
         }
     }
 
     private boolean validateFields() {
-        return emailEditText.getError() == null && birthEditText.getError() == null && passwordEditText.getError() == null && passwordRepEditText.getError() == null;
+        return (emailEditText.getError() == null && !TextUtils.isEmpty(emailEditText.getText()))
+                && (birthEditText.getError() == null && !TextUtils.isEmpty(birthEditText.getText()))
+                && (passwordEditText.getError() == null && !TextUtils.isEmpty(emailEditText.getText()))
+                && (passwordRepEditText.getError() == null && !TextUtils.isEmpty(emailEditText.getText()));
 
     }
 

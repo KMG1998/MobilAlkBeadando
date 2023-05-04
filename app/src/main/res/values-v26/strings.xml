@@ -16,7 +16,7 @@
     <string name="logout">Kilépés</string>
     <string name="new_upload_title">Új bejelentés</string>
     <string name="water_amount">Víz mennyiség</string>
-    <string name="name_hint">Név</string>
+    <string name="name">Név</string>
     <string name="birth_date">Születési dátum</string>
     <string name="password_rep">Jelszó újra</string>
     <string name="error_name_length">A névnek legalább 3 karakternek kell lennie</string>
@@ -51,4 +51,13 @@
     <string name="photo">Kép</string>
     <string name="listing_failure">Sikertelen listázás</string>
     <string name="date">Dátum</string>
+    <string name="delete_profile">Profil törlése</string>
+    <string name="delete_warning_positive">Törlés</string>
+    <string name="delete_prof_warning">Biztosan törli a profilját?</string>
+    <string name="delete_success">Sikeres törlés</string>
+    <string name="delete_failed">Sikertelen törlés</string>
+    <string name="approved">Jóváhagyva</string>
+    <string name="waiting_for_approval">Jóváhagyásra vár</string>
+    <string name="statement_approve_success">bejelentések jóváhagyva</string>
+    <string name="statement_approve_failed">bejelentések jóváhagyása sikertelen</string>
 </resources>

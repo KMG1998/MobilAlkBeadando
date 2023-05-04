@@ -9,7 +9,13 @@ public final class DateFormatters {
 
     private static SimpleDateFormat dateF =new SimpleDateFormat("yyyy.MM.dd");
 
+    private static SimpleDateFormat timestampF = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+
     public static SimpleDateFormat getDateFormat() {
         return dateF;
+    }
+
+    public static SimpleDateFormat getTimestampFormat() {
+        return timestampF;
     }
 }
