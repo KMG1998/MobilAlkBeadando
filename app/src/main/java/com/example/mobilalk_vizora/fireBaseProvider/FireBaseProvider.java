@@ -3,11 +3,8 @@ package com.example.mobilalk_vizora.fireBaseProvider;
 import android.net.Uri;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
 import com.example.mobilalk_vizora.model.Statement;
 import com.example.mobilalk_vizora.model.UserData;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthResult;
@@ -20,6 +17,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 
 public final class FireBaseProvider {
@@ -97,6 +95,7 @@ public final class FireBaseProvider {
     public Task<QuerySnapshot> deleteUser() {
         return statementCollection.whereEqualTo("userId", currentUser.getUid()).get().addOnCompleteListener(getStatementsTask -> {
             if (getStatementsTask.isSuccessful()) {
+                Log.d(LOG_TAG,"statement get success");
                 final boolean[] deleteStatementSuccess = {true};
                 if (getStatementsTask.getResult().size() > 0) {
                     getStatementsTask.getResult().getDocuments().forEach(snap -> {
@@ -108,6 +107,7 @@ public final class FireBaseProvider {
                     });
                 }
                 if (deleteStatementSuccess[0]) {
+                    Log.d(LOG_TAG,"statement delete success");
                     clearDataOnDeletion();
                 }
             }
@@ -128,25 +128,35 @@ public final class FireBaseProvider {
                         }
                     });
                 });
+            }else {
+                Log.d(LOG_TAG,"task not success result is"+task.getResult().toString());
             }
         }).addOnFailureListener(e -> {
             Log.d(LOG_TAG,"approve fail error: "+e.getMessage());
         });
     }
 
-    private Task<Void> clearDataOnDeletion() {
-        return storageReference.child(currentUser.getUid()).delete().addOnCompleteListener(task1 -> {
-            if (task1.isSuccessful()) {
+    private Task<ListResult> clearDataOnDeletion() {
+        return storageReference.child(currentUser.getUid()).listAll().addOnCompleteListener(storageItemsGetTask -> {
+            final boolean[] storageDeleteSuccess = {true};
+            storageItemsGetTask.getResult().getItems().forEach(ref ->ref.delete().addOnCompleteListener(task -> {
+                    if(!task.isSuccessful()){
+                        storageDeleteSuccess[0] = false;
+                    }
+            }));
+            if(storageDeleteSuccess[0] == true){
+                Log.d(LOG_TAG,"storage delete success");
                 userDataCollection.whereEqualTo("userId", currentUser.getUid()).get().addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         userDataCollection.document(task.getResult().getDocuments().get(0).getId()).delete().addOnCompleteListener(task2 -> {
+                            Log.d(LOG_TAG, "user data delete success");
                             if (task2.isSuccessful()) {
                                 currentUser.delete();
                             }
                         });
                     }
                 });
-            }
-        });
+                }
+            });
     }
 }

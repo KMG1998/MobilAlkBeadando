@@ -1,42 +1,30 @@
 package com.example.mobilalk_vizora.activities;
 
-import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
-import android.widget.Toast;
 
-import com.example.mobilalk_vizora.R;
-import com.example.mobilalk_vizora.adapters.StatementListAdapter;
-import com.example.mobilalk_vizora.fireBaseProvider.FireBaseProvider;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.mobilalk_vizora.R;
 import com.example.mobilalk_vizora.databinding.ActivityMainBinding;
-import com.example.mobilalk_vizora.jobs.ApproveStatementJobService;
-import com.example.mobilalk_vizora.model.Statement;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import org.checkerframework.checker.units.qual.A;
-import org.checkerframework.checker.units.qual.C;
-
-import java.util.ArrayList;
+import com.example.mobilalk_vizora.fireBaseProvider.FireBaseProvider;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private final FireBaseProvider fBaseProvider = new FireBaseProvider();
+    private JobScheduler jobScheduler;
+
+    private final String LOG_TAG = MainActivity.class.getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,15 +40,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
-
-        //job scheduler to simulate admin side statement approval
-        JobScheduler jobScheduler = getSystemService(JobScheduler.class);
-        ComponentName compName = new ComponentName(this, ApproveStatementJobService.class);
-        JobInfo.Builder jobInfo = new JobInfo.Builder((int) (Math.random() * 100), compName);
-        jobInfo.setMinimumLatency(1 * 20 * 1000).setTriggerContentMaxDelay(1 * 60 * 1000).setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
-        if (jobScheduler != null) {
-            jobScheduler.schedule(jobInfo.build());
-        }
+        jobScheduler = getSystemService(JobScheduler.class);
     }
 
     @Override
@@ -91,5 +71,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         //empty on back pressed to prevent accidental closing of the app
+    }
+
+    @Override
+    protected void onDestroy(){
+        Log.d(LOG_TAG,"on destroy");
+        jobScheduler.cancel(10);
+        super.onDestroy();
     }
 }

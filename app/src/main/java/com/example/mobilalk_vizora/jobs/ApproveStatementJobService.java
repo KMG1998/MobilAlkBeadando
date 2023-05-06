@@ -19,20 +19,25 @@ public class ApproveStatementJobService extends JobService {
 
     @Override
     public boolean onStartJob(JobParameters params) {
+        Log.d(LOG_TAG,"job started");
         fBaseProvider.approveStatementsForCurrentUser().addOnCompleteListener(approveTask -> {
             if(approveTask.isSuccessful()){
                 if(approveTask.getResult().size() > 0){
-                    Toast.makeText(getApplicationContext(), R.string.statement_approve_success,Toast.LENGTH_SHORT).show();
+                    Log.d(LOG_TAG,"approved more than 0");
+                }else {
+                    Log.d(LOG_TAG,"approved 0");
                 }
             }else{
-                Toast.makeText(getApplicationContext(), R.string.statement_approve_failed,Toast.LENGTH_SHORT).show();
+                Log.d(LOG_TAG,"approve failed");
             }
         });
+        jobFinished(params,true);
         return true;
     }
 
     @Override
     public boolean onStopJob(JobParameters params) {
+        Log.d(LOG_TAG,"job stopped");
         return false;
     }
 }

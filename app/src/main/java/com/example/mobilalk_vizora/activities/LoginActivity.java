@@ -1,11 +1,11 @@
 package com.example.mobilalk_vizora.activities;
 
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -13,10 +13,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
 import com.example.mobilalk_vizora.R;
 import com.example.mobilalk_vizora.fireBaseProvider.FireBaseProvider;
+import com.example.mobilalk_vizora.jobs.ApproveStatementJobService;
 import com.example.mobilalk_vizora.validators.InputValidator;
 import com.example.mobilalk_vizora.validators.ValidationResult;
 
@@ -27,8 +27,6 @@ public class LoginActivity extends AppCompatActivity {
     EditText passwordInput;
 
     private String LOG_TAG = LoginActivity.class.getName();
-
-    final int REQUEST_CODE_ASK_PERMISSIONS = 123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +58,14 @@ public class LoginActivity extends AppCompatActivity {
         String passw = passwordInput.getText().toString();
         fBaseProvider.loginWithEmail(email, passw).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
+                //job scheduler to simulate admin side statement approval
+                JobScheduler jobScheduler = getSystemService(JobScheduler.class);
+                ComponentName compName = new ComponentName(this, ApproveStatementJobService.class);
+                JobInfo.Builder jobInfo = new JobInfo.Builder(10, compName);
+                jobInfo.setMinimumLatency(1*60*1000).setTriggerContentMaxDelay(3*60*1000).setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
+                if (jobScheduler != null) {
+                    jobScheduler.schedule(jobInfo.build());
+                }
                 Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
                 mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(mainIntent);

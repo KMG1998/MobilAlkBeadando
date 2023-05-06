@@ -92,8 +92,8 @@ public class RegisterActivity extends AppCompatActivity {
     private boolean validateFields() {
         return (emailEditText.getError() == null && !TextUtils.isEmpty(emailEditText.getText()))
                 && (birthEditText.getError() == null && !TextUtils.isEmpty(birthEditText.getText()))
-                && (passwordEditText.getError() == null && !TextUtils.isEmpty(emailEditText.getText()))
-                && (passwordRepEditText.getError() == null && !TextUtils.isEmpty(emailEditText.getText()));
+                && (passwordEditText.getError() == null && !TextUtils.isEmpty(passwordEditText.getText()))
+                && (passwordRepEditText.getError() == null && !TextUtils.isEmpty(passwordRepEditText.getText()));
 
     }
 
@@ -138,7 +138,9 @@ public class RegisterActivity extends AppCompatActivity {
             String passwordRep = passwordRepEditText.getText().toString();
             if (password.compareTo(passwordRep) == 0) {
                 passwordRepEditText.setError(null);
-            } else {
+            } else if(passwordRep.isEmpty()){
+                passwordRepEditText.setError(getString(R.string.error_required_field));
+            }else {
                 passwordRepEditText.setError(getString(R.string.error_passw_mismatch));
             }
         }
